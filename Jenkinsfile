@@ -5,7 +5,7 @@ pipeline {
 		stage('Install Composer') {
             steps {
                 script {
-                    sh 'wget https://getcomposer.org/installer -O composer-setup.php'
+                    sh 'curl -sS https://getcomposer.org/installer -o composer-setup.php'
                     sh 'php composer-setup.php --install-dir=/usr/local/bin --filename=composer'
                     sh 'php -r "unlink(\'composer-setup.php\');"'
                 }
