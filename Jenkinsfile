@@ -3,7 +3,10 @@ pipeline {
 	stages {
 		stage('Build') {
 			steps {
-				sh 'composer install'
+				def installResult = sh(script: 'composer install', returnStatus: true)
+        if (installResult != 0) {
+            error 'Composer install failed'
+        }
 			}
 		}
 		stage('Test') {
