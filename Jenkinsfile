@@ -1,12 +1,19 @@
 pipeline {
 	agent any
+	
 	stages {
+		stage('Install Composer') {
+            steps {
+                script {
+                    sh 'wget https://getcomposer.org/installer -O composer-setup.php'
+                    sh 'php composer-setup.php --install-dir=/usr/local/bin --filename=composer'
+                    sh 'php -r "unlink(\'composer-setup.php\');"'
+                }
+            }
+        }
 		stage('Build') {
 			steps {
-				def installResult = sh(script: 'composer install', returnStatus: true)
-        if (installResult != 0) {
-            error 'Composer install failed'
-        }
+				sh 'composer install'
 			}
 		}
 		stage('Test') {
